@@ -1,6 +1,6 @@
 from typing import Optional
 from game.logic.base import BaseLogic
-from game.models import GameObject, Board, Position, Config
+from game.models import GameObject, Board, Position
 from ..util import position_equals
 
 class BotBang(BaseLogic):
@@ -78,12 +78,9 @@ class BotBang(BaseLogic):
             
             toBase = self.calculate_move(current, props.base) + self.calculate_move(props.base, self.goal_position)
             distanceDiamond = self.calculate_move(current, self.goal_position)
-            if (toBase == distanceDiamond):
+            print(self.goal_position)
+            if (toBase == distanceDiamond and not position_equals(current, props.base)):
                 self.goal_position = props.base
-
-        # tackle kalau ada kesempatan
-        if inventory < 4:
-            self.goal_position = self.tackle(current, board, self.goal_position)
 
         # cari direction dari destination
         delta_x, delta_y = self.direction(
@@ -95,7 +92,7 @@ class BotBang(BaseLogic):
                 delta_x, delta_y = 0, -1 if self.goal_position.y < current.y else 1
             elif delta_y != 0:
                 delta_x, delta_y = -1 if self.goal_position.x < current.x else 1, 0
-
+        print(self.goal_position)
         return delta_x, delta_y
     
     def destination(self, denseDiamond, temp, densePortal, diamond: Position, portal: Position):
@@ -106,7 +103,7 @@ class BotBang(BaseLogic):
                 self.goal_position = diamond
                 self.passPortal = False
                 temp = denseDiamond
-            if (densePortal >=  temp):
+            if (densePortal >  temp):
                 self.goal_position = portal
                 self.passPortal = True
                 temp = densePortal
