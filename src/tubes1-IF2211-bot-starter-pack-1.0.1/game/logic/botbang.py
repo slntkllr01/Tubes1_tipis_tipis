@@ -105,6 +105,11 @@ class BotBang(BaseLogic):
             elif delta_y != 0:
                 delta_x, delta_y = -1 if self.goal_position.x < current.x else 1, 0
 
+        # Validasi move dan bergerak ke arah sebaliknya jika move tidak valid. Hal ini bisa terjadi ketika ingin menghindari portal
+        if (not Board.is_valid_move(board, current, delta_x, delta_y)) : 
+            delta_x *= -1 
+            delta_y *= -1
+
         return delta_x, delta_y
     
     # Mencari destinasi posisi berdasarkan poin per jarak
