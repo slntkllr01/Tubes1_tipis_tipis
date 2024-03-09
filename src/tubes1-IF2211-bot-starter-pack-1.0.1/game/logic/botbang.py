@@ -47,12 +47,11 @@ class BotBang(BaseLogic):
                                 temp = self.destination(denseDiamond, temp, 0, d.position, portal_1)
                         if toBase >= distancePortal:
                                 temp = self.destination(0, temp, densePortal, d.position, portal_1)
-                # Handle jika tidak ditemukan diamond, langsung pulang ke base
-                if self.goal_position == None:
-                    self.goal_position = props.base
+ 
 
+            # Handle jika tidak ditemukan diamond, langsung pulang ke base
             # Langsung kembali ke base
-            else:
+            if self.goal_position == None:
                 portalToBase = self.calculate_move(current, portal_1) + self.calculate_move(portal_2, props.base)
                 if (portalToBase < toBase):
                     self.goal_position = portal_1
